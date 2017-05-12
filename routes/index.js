@@ -8,9 +8,13 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.get('/create', function(req, res, next) {
+  res.render('CreatePlayer', { title: 'Player' });
+});
+
 router.post('/api/playerCreate', function(req,res,next){
   let data = req.body;
-  playerController.create(req.body, function(err,res){
+  playerController.create(req.body, function(err,result){
     if(err){
       res.json({
         confirmation: 'fail',
@@ -20,7 +24,7 @@ router.post('/api/playerCreate', function(req,res,next){
     }
     res.json({
       confirmation: 'success',
-      message: res
+      message: result
     });
   });
 });
