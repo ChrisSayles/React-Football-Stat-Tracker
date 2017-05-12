@@ -2,10 +2,23 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var playerController = require('../controllers/playerController');
+var request = require('request');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
+});
+
+router.get('/existingPlayer', function(req,res){
+  var query = req.query.search;
+  var url = 'http://api.suredbits.com/nfl/v0/players/lynch/Marshawn'
+  request(url , function(error,response,body){
+    if(!error && response.statusCode == 200){
+      var data = JSON.parse(body);
+      res.render("ExistingPlayer", {data: data});
+      console.log(data)
+    }
+  });
 });
 
 router.get('/create', function(req, res, next) {
@@ -46,6 +59,7 @@ router.get('/api/players', function (req, res, next) {
   });
 
 });
+
 
 
 
