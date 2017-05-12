@@ -4,8 +4,25 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 var index = require('./routes/index');
+
+
+
+
+//MONGOOSE INFO-----
+var dbUrl = 'mongodb://localhost/reactfootballstattracker';
+
+mongoose.connect(dbUrl, function(err, res){
+if(err){
+console.log('DB CONNECTION FAILED', err);
+} else {
+console.log('DB CONNECTION SUCCESS', dbUrl);
+}
+});
+
+//--------
 
 
 var app = express();
