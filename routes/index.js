@@ -29,6 +29,24 @@ router.post('/api/playerCreate', function(req,res,next){
   });
 });
 
+router.get('/api/players', function (req, res, next) {
+
+  playerController.find(req.query, function (err, results) {
+    if (err) {
+      res.json({
+        confirmation: 'fail',
+        message: err
+      });
+      return;
+    }
+    res.json({
+      confirmation: 'success',
+      results: results
+    });
+  });
+
+});
+
 
 
 module.exports = router;

@@ -1,22 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>{{ title }}</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/style.css" rel="stylesheet">
-  </head>
-  <body>
-    <h1>Create Player</h1>
 
-    <form action="/api/playerCreate" method="post" >
-      <input type="text", name='firstName' placeholder='first Name' />
-      <br/>
-      <input type="text" name='lastName' placeholder="Last Name" />
-      <br/>
-      <input type="text" name='position' placeholder="position" />
-      <br/>
-      <button type="submit">Create Player</button>
-    </form>
-  </body>
+<head>
+  <title>{{ title }}</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+
+<body>
+  <h1>Create Player</h1>
+  <script>
+    $.get("api/players", function (data) {
+      $("#allPlayers").html(JSON.stringify(data));
+      console.log(data);
+    });
+  </script>
+
+  <form action="/api/playerCreate" method="post">
+    <input type="text" , name='firstName' placeholder='first Name' />
+    <br/>
+    <input type="text" name='lastName' placeholder="Last Name" />
+    <br/>
+    <input type="text" name='position' placeholder="position" />
+    <br/>
+    <button type="submit">Create Player</button>
+  </form>
+  <div id='allPlayers'></div>
+</body>
+
 </html>
