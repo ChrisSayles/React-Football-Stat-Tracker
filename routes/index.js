@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
 
 
 
-//ROUTES TO HARDCODED MARSHAWN LYNCH TEST
+//ROUTES TO PLAYER BASIC INFO
 router.get('/nflplayer',function(req,res){
   var firstName=req.query.firstName;
   var lastName=req.query.lastName;
@@ -28,6 +28,22 @@ router.get('/nflplayer',function(req,res){
    });
 });
 
+//ROUTES TO PLAYER STATS
+router.get('/nflplayerstats',function(req,res){
+  var firstNameStats=req.query.firstName;
+  var lastNameStats=req.query.lastName;
+  console.log(firstNameStats + " " + lastNameStats)
+
+   request('http://api.suredbits.com/nfl/v0/stats/' + lastNameStats + '/' +firstNameStats, function(error,response, body){
+    if(!error && response.statusCode == 200){
+      var datastats = JSON.parse(body);
+      // res.render("nflplayer", {data: data});
+      res.send(datastats)
+      //DRILL DOWN WITH THIS SYNTAX
+    }
+
+   });
+});
 
 
 
