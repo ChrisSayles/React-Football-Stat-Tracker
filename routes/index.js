@@ -6,25 +6,36 @@ var request = require('request');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'NFL Football Player Database' });
 });
 
-router.get('/existingPlayer', function(req,res){
-  var query = req.query.search;
-  var url = 'http://api.suredbits.com/nfl/v0/players/lynch/Marshawn'
-  request(url , function(error,response,body){
+
+
+//ROUTES TO HARDCODED MARSHAWN LYNCH TEST
+router.get('/nflplayer',function(req,res){
+  var firstName=req.query.firstName;
+  var lastName=req.query.lastName;
+  console.log(firstName + " " + lastName)
+
+   request('http://api.suredbits.com/nfl/v0/players/'+lastName+'/'+firstName, function(error,response, body){
     if(!error && response.statusCode == 200){
       var data = JSON.parse(body);
-      res.render("ExistingPlayer", {data: data});
-      console.log(data)
+      // res.render("nflplayer", {data: data});
+      res.send(data)
+      //DRILL DOWN WITH THIS SYNTAX
     }
-  });
+
+   });
 });
 
+
+
+
+//DIRECTS TO CREATE PLAYER PAGE
 router.get('/create', function(req, res, next) {
   res.render('CreatePlayer', { title: 'Player' });
 });
-
+//CREATED PLAYER IS SAVED TO MONGODB
 router.post('/api/playerCreate', function(req,res,next){
   let data = req.body;
   playerController.create(req.body, function(err,result){

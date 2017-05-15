@@ -7,5 +7,11 @@
   <body>
     <h1>{{ title }}</h1>
     <p>Welcome to {{ title }}</p>
+    <h1>Search for a player</h1>
+    <form action='/nflplayer'>
+    		<input type='text' placeholder="First Name" name="firstName">
+    		<input type='text' placeholder="Last Name" name="lastName">
+    		<input type="submit">
+    </form>
   </body>
 </html>
