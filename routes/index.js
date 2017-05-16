@@ -45,6 +45,22 @@ router.get('/nflplayerstats',function(req,res){
    });
 });
 
+//ROUTES TO TEAM ROSTER
+router.get('/nflroster',function(req,res){
+  var teamabbreviation=req.query.nflroster;
+  console.log(teamabbreviation)
+
+   request( 'http://api.suredbits.com/nfl/v0/team/'+teamabbreviation+'/roster', function(error,response, body){
+    if(!error && response.statusCode == 200){
+      var datastats = JSON.parse(body);
+      // res.render("nflplayer", {data: data});
+      res.send(datastats)
+      //DRILL DOWN WITH THIS SYNTAX
+    }
+
+   });
+});
+
 
 
 //DIRECTS TO CREATE PLAYER PAGE
