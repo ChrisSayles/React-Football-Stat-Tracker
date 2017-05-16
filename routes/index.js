@@ -61,6 +61,22 @@ router.get('/nflroster',function(req,res){
    });
 });
 
+//TEAM SCHEDULE
+router.get('/nflschedule',function(req,res){
+  var teamschedule=req.query.nflschedule;
+  console.log(teamschedule)
+
+   request( 'http://api.suredbits.com/nfl/v0/team/'+teamschedule+'/schedule', function(error,response, body){
+    if(!error && response.statusCode == 200){
+      var schedule = JSON.parse(body);
+      // res.render("nflplayer", {data: data});
+      res.send(schedule)
+      //DRILL DOWN WITH THIS SYNTAX
+    }
+
+   });
+});
+
 
 
 //DIRECTS TO CREATE PLAYER PAGE

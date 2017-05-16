@@ -24,5 +24,10 @@
     		<input type='text' placeholder="Enter Team Name Abbreviation" name="nflroster">
     		<input type="submit">
     </form>
+    <h1>NFL Schedule by Team</h1>
+     <form action='/nflschedule'>
+    		<input type='text' placeholder="Enter Team Name Abbreviation" name="nflschedule">
+    		<input type="submit">
+    </form>
   </body>
 </html>
