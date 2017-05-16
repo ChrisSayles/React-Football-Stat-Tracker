@@ -9,13 +9,20 @@ import {
 } from 'react-bootstrap';
 import axios from 'axios';
 
+import { PlayerCard } from '../presentation/';
+
 class MainPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      player: {
+    player: {
         lastName: '',
         firstName: ''
+      },
+      currentPlayerBio: {
+        birthDate: '',
+        college: '',
+        height: ''
       },
       renderComponents: {
         playerBio: true,
@@ -44,11 +51,21 @@ class MainPage extends Component {
 
   getPlayer = (e) => {
     e.preventDefault();
+    const self = this;
     let player = Object.assign({}, this.state.player);
-
+    console.log(player);
     axios({method: 'get', url: '/nflplayer', params: player, responseType: 'json'})
       .then(function (response) {
         console.log('response', response);
+        let returnedPlayer = response.data[0];
+        let statsObject = Object.assign({}, self.state.currentPlayerStats);
+
+
+        statsObject['birthDate'] = returnedPlayer.birthDate;
+        statsObject['college'] = returnedPlayer.college;
+        statsObject['height'] = returnedPlayer.height;
+
+        self.setState({currentPlayerStats: statsObject});
       })
       .catch(function (error) {
         console.error('error', error);
@@ -150,7 +167,8 @@ class MainPage extends Component {
             </form>
           </Col>
         </Row>
-
+        {(this.state.currentPlayerBio.birthdate !== '') ? <PlayerCard playerName={this.state.player} playerBio={this.state.currentPlayerBio} /> : <div></div> }
+        
       </Grid>
     );
   }
