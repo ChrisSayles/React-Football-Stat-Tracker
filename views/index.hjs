@@ -2,32 +2,13 @@
 <html>
   <head>
     <title>{{ title }}</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1>{{ title }}</h1>
-    <p>Welcome to {{ title }}</p>
-    <h1>Search for a players Information</h1>
-    <form action='/nflplayer'>
-    		<input type='text' placeholder="First Name" name="firstName">
-    		<input type='text' placeholder="Last Name" name="lastName">
-    		<input type="submit">
-    </form>
-    <h1>Search for a players Stats</h1>
-    <form action='/nflplayerstats'>
-    		<input type='text' placeholder="First Name" name="firstName">
-    		<input type='text' placeholder="Last Name" name="lastName">
-    		<input type="submit">
-    </form>
-     <h1>Team Roster Search</h1>
-    <form action='/nflroster'>
-    		<input type='text' placeholder="Enter Team Name Abbreviation" name="nflroster">
-    		<input type="submit">
-    </form>
-    <h1>NFL Schedule by Team</h1>
-     <form action='/nflschedule'>
-    		<input type='text' placeholder="Enter Team Name Abbreviation" name="nflschedule">
-    		<input type="submit">
-    </form>
+    <div id="root"></div>
+    <script type="text/javascript" src="/build/bundle.js"></script>
+
   </body>
 </html>
