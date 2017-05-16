@@ -55,11 +55,33 @@ class MainPage extends Component {
       });
   }
 
+  //get player stats
+  getPlayerStats = (e) => {
+  e.preventDefault();
+  let playerStats = Object.assign({}, this.state.player);
+  console.log(playerStats);
+  axios({method: 'get', url: '/nflplayerstats', params: playerStats, responseType: 'json'})
+  .then(function (response) {
+        console.log('response', response);
+      })
+      .catch(function (error) {
+        console.error('error', error);
+      });
+}
+
     updatePlayerName = (e) => {
     let playerObject = Object.assign({}, this.state.player);
 
     // we have to make sure the id's match the state key values this way but it is
     // neater
+    playerObject[e.target.id] = e.target.value;
+    this.setState({player: playerObject});
+
+  }
+
+  updatePlayerStats = (e) => {
+    let playerObject = Object.assign({}, this.state.player);
+
     playerObject[e.target.id] = e.target.value;
     this.setState({player: playerObject});
 
@@ -109,6 +131,22 @@ class MainPage extends Component {
                 <input onChange={this.updatePlayerName} type="text" id='lastName'/>
               </label>
               <button onClick={this.getPlayer} type='Submit'>Submit</button>
+            </form>
+          </Col>
+        </Row>
+
+         <Row className="show-grid" action='/nflplayerstats' method='get'>
+          <Col xs={12} md={8}>
+            <form>
+              <label>
+                First Name:
+                <input onChange={this.updatePlayerStats} type="text" id='firstName'/>
+              </label>
+              <label>
+                Last Name:
+                <input onChange={this.updatePlayerStats} type="text" id='lastName'/>
+              </label>
+              <button onClick={this.getPlayerStats} type='Submit'>Submit</button>
             </form>
           </Col>
         </Row>
