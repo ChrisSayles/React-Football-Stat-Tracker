@@ -9,20 +9,25 @@ import {
 } from 'react-bootstrap';
 import axios from 'axios';
 
-import { PlayerCard } from '../presentation/';
+import {PlayerCard} from '../presentation/';
 
 class MainPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    player: {
+      tempPlayer: {
+        lastName: '',
+        firstName: ''
+      },
+      submittedPlayer: {
         lastName: '',
         firstName: ''
       },
       currentPlayerBio: {
         birthDate: '',
         college: '',
-        height: ''
+        height: '',
+        profileUrl: ''
       },
       renderComponents: {
         playerBio: true,
@@ -33,8 +38,6 @@ class MainPage extends Component {
 
     }
   }
-
-
 
   renderTabInfo = (e) => {
     e.preventDefault();
@@ -51,22 +54,22 @@ class MainPage extends Component {
 
   getPlayer = (e) => {
     e.preventDefault();
+
     const self = this;
-    let player = Object.assign({}, this.state.player);
-    console.log(player);
-    axios({method: 'get', url: '/nflplayer', params: player, responseType: 'json'})
-      .then(function (response) {
-        console.log('response', response);
-        let returnedPlayer = response.data[0];
-        let statsObject = Object.assign({}, self.state.currentPlayerStats);
+    let submittedPlayer = Object.assign({}, this.state.tempPlayer);
+    this.setState({submittedPlayer: submittedPlayer});
+    axios({method: 'get', url: '/nflplayer', params: submittedPlayer, responseType: 'json'}).then(function (response) {
+      console.log('response', response);
+      let returnedPlayer = response.data[0];
+      let statsObject = Object.assign({}, self.state.currentPlayerBio);
 
+      statsObject['birthDate'] = returnedPlayer.birthDate;
+      statsObject['college'] = returnedPlayer.college;
+      statsObject['height'] = returnedPlayer.height;
+      statsObject['profileUrl'] = returnedPlayer.profileUrl;
 
-        statsObject['birthDate'] = returnedPlayer.birthDate;
-        statsObject['college'] = returnedPlayer.college;
-        statsObject['height'] = returnedPlayer.height;
-
-        self.setState({currentPlayerStats: statsObject});
-      })
+      self.setState({currentPlayerBio: statsObject});
+    })
       .catch(function (error) {
         console.error('error', error);
       });
@@ -74,43 +77,44 @@ class MainPage extends Component {
 
   //get player stats
   getPlayerStats = (e) => {
-  e.preventDefault();
-  let playerStats = Object.assign({}, this.state.player);
-  console.log(playerStats);
-  axios({method: 'get', url: '/nflplayerstats', params: playerStats, responseType: 'json'})
-  .then(function (response) {
-        console.log('response', response);
-      })
+    e.preventDefault();
+    let playerStats = Object.assign({}, this.state.tempPlayer);
+    this.setState({submittedPlayer: playerStats});
+    console.log(playerStats);
+    axios({method: 'get', url: '/nflplayerstats', params: playerStats, responseType: 'json'}).then(function (response) {
+      console.log('response', response);
+
+    })
       .catch(function (error) {
         console.error('error', error);
       });
-}
+  }
 
-    updatePlayerName = (e) => {
-    let playerObject = Object.assign({}, this.state.player);
+  updatePlayerName = (e) => {
+    let playerObject = Object.assign({}, this.state.tempPlayer);
 
     // we have to make sure the id's match the state key values this way but it is
     // neater
     playerObject[e.target.id] = e.target.value;
-    this.setState({player: playerObject});
+    this.setState({tempPlayer: playerObject});
 
   }
 
   updatePlayerStats = (e) => {
-    let playerObject = Object.assign({}, this.state.player);
+    let playerObject = Object.assign({}, this.state.tempPlayer);
 
     playerObject[e.target.id] = e.target.value;
-    this.setState({player: playerObject});
+    this.setState({tempPlayer: playerObject});
 
   }
 
   render() {
     return (
-      <Grid style={{
-        marginTop: 6 + 'rem'
+      <div className='container' style={{
+        marginTop: 5 + 'rem'
       }}>
-        <Row className="show-grid">
-          <Col xs={12} md={12}>
+        <div className='row'>
+          <div className='col'>
             <ul className="nav nav-tabs">
               <li className="nav-item">
                 <a
@@ -133,11 +137,11 @@ class MainPage extends Component {
                 <a className="nav-link" href="#">Team Roster</a>
               </li>
             </ul>
-          </Col>
-        </Row>
+          </div>
+        </div>
 
-        <Row className="show-grid" action='/nflplayer' method='get'>
-          <Col xs={12} md={8}>
+        <div className='row'>
+          <div className='col'>
             <form>
               <label>
                 First Name:
@@ -149,11 +153,11 @@ class MainPage extends Component {
               </label>
               <button onClick={this.getPlayer} type='Submit'>Submit</button>
             </form>
-          </Col>
-        </Row>
+          </div>
+        </div>
 
-         <Row className="show-grid" action='/nflplayerstats' method='get'>
-          <Col xs={12} md={8}>
+        <div className='row'>
+          <div className='col'>
             <form>
               <label>
                 First Name:
@@ -165,11 +169,15 @@ class MainPage extends Component {
               </label>
               <button onClick={this.getPlayerStats} type='Submit'>Submit</button>
             </form>
-          </Col>
-        </Row>
-        {(this.state.currentPlayerBio.birthdate !== '') ? <PlayerCard playerName={this.state.player} playerBio={this.state.currentPlayerBio} /> : <div></div> }
-        
-      </Grid>
+          </div>
+        </div>
+        {this.state.currentPlayerBio.profileUrl ? <PlayerCard
+          playerName={this.state.submittedPlayer}
+          playerBio={this.state.currentPlayerBio}/>
+        : <div></div>}
+
+
+      </div>
     );
   }
 }
