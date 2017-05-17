@@ -25,7 +25,7 @@ class PlayerCard extends Component {
                   make up the bulk of the card's content.</p>
               </div>
               <ul className="list-group list-group-flush">
-                <li className="list-group-item">{JSON.stringify(this.props.playerBio)}</li>
+                <li className="list-group-item">{this.props.playerBio.college}</li>
                 <li className="list-group-item">{this.props.playerBio.birthDate}</li>
                 <li className="list-group-item">{this.props.playerBio.height}</li>
               </ul>

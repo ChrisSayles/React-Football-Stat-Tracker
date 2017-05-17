@@ -15,10 +15,14 @@ class MainPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    player: {
+    tempPlayer: {
         lastName: '',
         firstName: ''
       },
+    submittedPlayer: {
+      lastName: '',
+      firstName: ''
+    },
       currentPlayerBio: {
         birthDate: '',
         college: '',
@@ -51,10 +55,11 @@ class MainPage extends Component {
 
   getPlayer = (e) => {
     e.preventDefault();
+    
     const self = this;
-    let player = Object.assign({}, this.state.player);
-    console.log(player);
-    axios({method: 'get', url: '/nflplayer', params: player, responseType: 'json'})
+    let submittedPlayer = Object.assign({}, this.state.tempPlayer);
+    this.setState({submittedPlayer: submittedPlayer});
+    axios({method: 'get', url: '/nflplayer', params: submittedPlayer, responseType: 'json'})
       .then(function (response) {
         console.log('response', response);
         let returnedPlayer = response.data[0];
@@ -75,7 +80,8 @@ class MainPage extends Component {
   //get player stats
   getPlayerStats = (e) => {
   e.preventDefault();
-  let playerStats = Object.assign({}, this.state.player);
+  let playerStats = Object.assign({}, this.state.tempPlayer);
+  this.setState({submittedPlayer: playerStats});
   console.log(playerStats);
   axios({method: 'get', url: '/nflplayerstats', params: playerStats, responseType: 'json'})
   .then(function (response) {
@@ -87,12 +93,12 @@ class MainPage extends Component {
 }
 
     updatePlayerName = (e) => {
-    let playerObject = Object.assign({}, this.state.player);
+    let playerObject = Object.assign({}, this.state.tempPlayer);
 
     // we have to make sure the id's match the state key values this way but it is
     // neater
     playerObject[e.target.id] = e.target.value;
-    this.setState({player: playerObject});
+    this.setState({tempPlayer: playerObject});
 
   }
 
@@ -167,7 +173,7 @@ class MainPage extends Component {
             </form>
           </Col>
         </Row>
-        {(this.state.currentPlayerBio.birthdate !== '') ? <PlayerCard playerName={this.state.player} playerBio={this.state.currentPlayerBio} /> : <div></div> }
+        <PlayerCard playerName={this.state.submittedPlayer} playerBio={this.state.currentPlayerBio} />
         
       </Grid>
     );
