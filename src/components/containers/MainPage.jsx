@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 
-import {PlayerCard} from '../presentation/';
+import {PlayerCard, PlayerBioSearch} from '../presentation/';
 
 class MainPage extends Component {
   constructor(props) {
@@ -47,13 +47,15 @@ class MainPage extends Component {
     this.setState({renderComponents: currentState})
   }
 
-  getPlayer = (e) => {
-    e.preventDefault();
+  getPlayer = (player) => {
+    // e.preventDefault();
 
     const self = this;
+
     let submittedPlayer = Object.assign({}, this.state.tempPlayer);
-    this.setState({submittedPlayer: submittedPlayer});
-    axios({method: 'get', url: '/nflplayer', params: submittedPlayer, responseType: 'json'}).then(function (response) {
+    this.setState({submittedPlayer: player});
+    
+    axios({method: 'get', url: '/nflplayer', params: player, responseType: 'json'}).then(function (response) {
       console.log('response', response);
       let returnedPlayer = response.data[0];
       let statsObject = Object.assign({}, self.state.currentPlayerBio);
@@ -139,21 +141,7 @@ class MainPage extends Component {
           </div>
         </div>
 
-        <div className='row'>
-          <div className='col'>
-            <form>
-              <label>
-                First Name:
-                <input onChange={this.updatePlayerName} type="text" id='firstName'/>
-              </label>
-              <label>
-                Last Name:
-                <input onChange={this.updatePlayerName} type="text" id='lastName'/>
-              </label>
-              <button onClick={this.getPlayer} type='Submit'>Submit</button>
-            </form>
-          </div>
-        </div>
+        <PlayerBioSearch getStats={this.getPlayer} />
 
         <div className='row'>
           <div className='col'>
