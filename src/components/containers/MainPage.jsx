@@ -1,12 +1,4 @@
 import React, {Component} from 'react';
-import {
-  Grid,
-  Row,
-  Col,
-  Form,
-  label,
-  input
-} from 'react-bootstrap';
 import axios from 'axios';
 
 import {PlayerCard} from '../presentation/';
@@ -27,7 +19,10 @@ class MainPage extends Component {
         birthDate: '',
         college: '',
         height: '',
-        profileUrl: ''
+        profileUrl: '',
+        team: '',
+        position: '',
+        uniformNum: ''
       },
       renderComponents: {
         playerBio: true,
@@ -36,7 +31,7 @@ class MainPage extends Component {
         teamRoster: false
       }
 
-    }
+    } 
   }
 
   renderTabInfo = (e) => {
@@ -67,6 +62,10 @@ class MainPage extends Component {
       statsObject['college'] = returnedPlayer.college;
       statsObject['height'] = returnedPlayer.height;
       statsObject['profileUrl'] = returnedPlayer.profileUrl;
+      statsObject['team'] = returnedPlayer.team;
+      statsObject['uniformNum'] = returnedPlayer.uniformNumber;
+      statsObject['position'] = returnedPlayer.position;
+
 
       self.setState({currentPlayerBio: statsObject});
     })
@@ -171,11 +170,11 @@ class MainPage extends Component {
             </form>
           </div>
         </div>
+
         {this.state.currentPlayerBio.profileUrl ? <PlayerCard
           playerName={this.state.submittedPlayer}
           playerBio={this.state.currentPlayerBio}/>
         : <div></div>}
-
 
       </div>
     );
