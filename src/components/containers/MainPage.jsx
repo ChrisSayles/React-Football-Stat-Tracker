@@ -171,10 +171,11 @@ class MainPage extends Component {
             </form>
           </div>
         </div>
-
-        <PlayerCard
+        {this.state.currentPlayerBio.profileUrl ? <PlayerCard
           playerName={this.state.submittedPlayer}
           playerBio={this.state.currentPlayerBio}/>
+        : <div></div>}
+
 
       </div>
     );
