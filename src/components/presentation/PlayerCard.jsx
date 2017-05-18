@@ -29,6 +29,45 @@ class PlayerCard extends Component {
 
   }
 
+            // <li className="list-group-item">{this.props.playerStats.passing.passingYds}</li>
+            // <li className="list-group-item">{this.props.playerBio.birthDate}</li>
+            // <li className="list-group-item">{this.props.playerBio.height}</li>
+
+  getPlayerStats = () => {
+ switch (this.props.playerBio.position) {
+  case 'QB':
+    return (
+        <div>
+            <li className="list-group-item">Total Yards: {this.props.playerStats.passing.passingYds}</li>
+            <li className="list-group-item">Total TDs: {this.props.playerStats.passing.passingTds}</li> 
+            <li className="list-group-item">Total INTs: {this.props.playerStats.passing.passingInt}</li>         
+        </div>
+        )
+    break;
+  case 'RB':
+    return (
+        <div>
+            <li className="list-group-item">Attempt: {this.props.playerStats.rushing.attempt}</li>
+            <li className="list-group-item">Total Rushing Yards: {this.props.playerStats.rushing.rushingYds}</li> 
+            <li className="list-group-item">Total TDs: {this.props.playerStats.rushing.tds}</li>         
+        </div>
+        )
+    break;
+  case 'WR':
+    console.log('Bananas are $0.48 a pound.');
+    break;
+  case 'TE':
+    console.log('Cherries are $3.00 a pound.');
+    break;
+  case 'OL':
+    console.log('Cherries are $3.00 a pound.');
+    break;
+  default:
+    console.log('Defensive Players');
+}
+
+  }
+
   render() {
     return (
       <div>
@@ -41,9 +80,7 @@ class PlayerCard extends Component {
             <p className="card-text">{`Position: ${this.props.playerBio.position} | Uniform Number: ${this.props.playerBio.uniformNum}`}</p>
           </div>
           <ul className="list-group list-group-flush">
-            <li className="list-group-item">{this.props.playerBio.college}</li>
-            <li className="list-group-item">{this.props.playerBio.birthDate}</li>
-            <li className="list-group-item">{this.props.playerBio.height}</li>
+            {this.getPlayerStats()}
           </ul>
           <div className="card-block">
             <a target="_blank" href={this.props.playerBio.profileUrl} className="card-link">NFL Profile</a>

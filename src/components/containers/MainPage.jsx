@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 
 import {PlayerCard, PlayerBioSearch, PlayerStatSearch, TeamRosterSearch, TeamScheduleSearch} from '../presentation/';
+import FullTeamRoster from './FullTeamRoster';
 
 class MainPage extends Component {
   constructor(props) {
@@ -24,6 +25,8 @@ class MainPage extends Component {
         position: '',
         uniformNum: ''
       },
+      returnedStats: {},
+      fullTeam: [],      
       renderComponents: {
         playerBio: true,
         playerStats: false,
@@ -74,13 +77,26 @@ class MainPage extends Component {
       .catch(function (error) {
         console.error('error', error);
       });
+
+    axios({method: 'get', url: '/nflplayerstats', params: player, responseType: 'json'}).then(function (response) {
+      console.log('response', response);
+      let currentStats = Object.assign({}, self.state.returnedStats);
+      currentStats = response.data[0];
+      self.setState({returnedStats: currentStats});
+    })
+      .catch(function (error) {
+        console.error('error', error);
+      });
   }
 
   //get player stats
   getPlayerStats = (playerObject) => {
+    const self = this;
     axios({method: 'get', url: '/nflplayerstats', params: playerObject, responseType: 'json'}).then(function (response) {
       console.log('response', response);
-
+      let currentStats = Object.assign({}, self.state.returnedStats);
+      currentStats = response.data[0];
+      self.setState({returnedStats: currentStats});
     })
       .catch(function (error) {
         console.error('error', error);
@@ -88,8 +104,13 @@ class MainPage extends Component {
   }
 
   getTeamRoster = (team) => {    
+    const self = this;
     axios({method: 'get', url: '/nflroster', params: team, responseType: 'json'}).then(function (response) {
       console.log('response team roster', response);
+      let currentFullTeam = Object.assign([], self.state.fullTeam);
+      currentFullTeam = response.data;
+      self.setState({fullTeam: currentFullTeam});
+
     })
       .catch(function (error) {
         console.error('error', error);
@@ -139,16 +160,17 @@ class MainPage extends Component {
 
         <PlayerBioSearch getStats={this.getPlayer} />
 
-        <PlayerStatSearch getStats={this.getPlayerStats} />
-
         <TeamRosterSearch getTeam={this.getTeamRoster} />
 
         <TeamScheduleSearch getSchedule={this.getTeamSchedule} />
 
         {this.state.currentPlayerBio.profileUrl ? <PlayerCard
           playerName={this.state.submittedPlayer}
-          playerBio={this.state.currentPlayerBio}/>
+          playerBio={this.state.currentPlayerBio}
+          playerStats={this.state.returnedStats}/>
         : <div></div>}
+
+        <FullTeamRoster fullTeam={this.state.fullTeam}  />
 
       </div>
     );
