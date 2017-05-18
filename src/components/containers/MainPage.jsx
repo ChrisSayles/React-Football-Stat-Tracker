@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 
-import {PlayerCard, PlayerBioSearch, PlayerStatSearch, TeamRosterSearch } from '../presentation/';
+import {PlayerCard, PlayerBioSearch, PlayerStatSearch, TeamRosterSearch, TeamScheduleSearch} from '../presentation/';
 
 class MainPage extends Component {
   constructor(props) {
@@ -96,6 +96,15 @@ class MainPage extends Component {
     });
   }
 
+  getTeamSchedule= (schedule) => {
+   axios({method: 'get', url: '/nflschedule', params: schedule, responseType: 'json'}).then(function (response) {
+      console.log('response team roster', response);
+    })
+      .catch(function (error) {
+        console.error('error', error);
+    });
+  }
+
   render() {
     return (
       <div className='container' style={{
@@ -133,6 +142,8 @@ class MainPage extends Component {
         <PlayerStatSearch getStats={this.getPlayerStats} />
 
         <TeamRosterSearch getTeam={this.getTeamRoster} />
+
+        <TeamScheduleSearch getSchedule={this.getTeamSchedule} />
 
         {this.state.currentPlayerBio.profileUrl ? <PlayerCard
           playerName={this.state.submittedPlayer}
