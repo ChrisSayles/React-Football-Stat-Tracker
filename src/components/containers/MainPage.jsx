@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 
-import {PlayerCard, PlayerBioSearch} from '../presentation/';
+import {PlayerCard, PlayerBioSearch, PlayerStatSearch} from '../presentation/';
 
 class MainPage extends Component {
   constructor(props) {
@@ -77,12 +77,8 @@ class MainPage extends Component {
   }
 
   //get player stats
-  getPlayerStats = (e) => {
-    e.preventDefault();
-    let playerStats = Object.assign({}, this.state.tempPlayer);
-    this.setState({submittedPlayer: playerStats});
-    console.log(playerStats);
-    axios({method: 'get', url: '/nflplayerstats', params: playerStats, responseType: 'json'}).then(function (response) {
+  getPlayerStats = (playerObject) => {
+    axios({method: 'get', url: '/nflplayerstats', params: playerObject, responseType: 'json'}).then(function (response) {
       console.log('response', response);
 
     })
@@ -143,21 +139,7 @@ class MainPage extends Component {
 
         <PlayerBioSearch getStats={this.getPlayer} />
 
-        <div className='row'>
-          <div className='col'>
-            <form>
-              <label>
-                First Name:
-                <input onChange={this.updatePlayerStats} type="text" id='firstName'/>
-              </label>
-              <label>
-                Last Name:
-                <input onChange={this.updatePlayerStats} type="text" id='lastName'/>
-              </label>
-              <button onClick={this.getPlayerStats} type='Submit'>Submit</button>
-            </form>
-          </div>
-        </div>
+        <PlayerStatSearch getStats={this.getPlayerStats} />
 
         {this.state.currentPlayerBio.profileUrl ? <PlayerCard
           playerName={this.state.submittedPlayer}
