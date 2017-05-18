@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 
-import {PlayerCard, PlayerBioSearch, PlayerStatSearch} from '../presentation/';
+import {PlayerCard, PlayerBioSearch, PlayerStatSearch, TeamRosterSearch } from '../presentation/';
 
 class MainPage extends Component {
   constructor(props) {
@@ -87,24 +87,6 @@ class MainPage extends Component {
       });
   }
 
-  updatePlayerName = (e) => {
-    let playerObject = Object.assign({}, this.state.tempPlayer);
-
-    // we have to make sure the id's match the state key values this way but it is
-    // neater
-    playerObject[e.target.id] = e.target.value;
-    this.setState({tempPlayer: playerObject});
-
-  }
-
-  updatePlayerStats = (e) => {
-    let playerObject = Object.assign({}, this.state.tempPlayer);
-
-    playerObject[e.target.id] = e.target.value;
-    this.setState({tempPlayer: playerObject});
-
-  }
-
   render() {
     return (
       <div className='container' style={{
@@ -140,6 +122,8 @@ class MainPage extends Component {
         <PlayerBioSearch getStats={this.getPlayer} />
 
         <PlayerStatSearch getStats={this.getPlayerStats} />
+
+        <TeamRosterSearch />
 
         {this.state.currentPlayerBio.profileUrl ? <PlayerCard
           playerName={this.state.submittedPlayer}

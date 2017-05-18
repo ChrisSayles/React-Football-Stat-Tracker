@@ -37,7 +37,7 @@ class PlayerStatSearch extends Component {
                 Last Name:
                 <input type="text" onChange={this.updateStat} id='lastName'/>
               </label>
-              <button onSubmit={this.submitStat}type='Submit'>Submit</button>
+              <button onClick={this.submitStat}type='Submit'>Submit</button>
             </form>
           </div>
         </div>
