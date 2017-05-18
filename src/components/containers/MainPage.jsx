@@ -87,6 +87,15 @@ class MainPage extends Component {
       });
   }
 
+  getTeamRoster = (team) => {    
+    axios({method: 'get', url: '/nflroster', params: team, responseType: 'json'}).then(function (response) {
+      console.log('response team roster', response);
+    })
+      .catch(function (error) {
+        console.error('error', error);
+    });
+  }
+
   render() {
     return (
       <div className='container' style={{
@@ -123,7 +132,7 @@ class MainPage extends Component {
 
         <PlayerStatSearch getStats={this.getPlayerStats} />
 
-        <TeamRosterSearch />
+        <TeamRosterSearch getTeam={this.getTeamRoster} />
 
         {this.state.currentPlayerBio.profileUrl ? <PlayerCard
           playerName={this.state.submittedPlayer}

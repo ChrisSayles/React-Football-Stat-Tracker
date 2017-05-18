@@ -18,15 +18,10 @@ class TeamRosterSearch extends Component {
 
   getTeamRoster = (e) => {
     e.preventDefault();
+    let teamObject = {nflroster: this.state.teamName};
+    
+    this.props.getTeam(teamObject);
 
-    let teamAbr = {nflroster: this.state.teamName}
-
-    axios({method: 'get', url: '/nflroster', params: teamAbr, responseType: 'json'}).then(function (response) {
-      console.log('response team roster', response);
-    })
-      .catch(function (error) {
-        console.error('error', error);
-      });
   }
 
   render() {
