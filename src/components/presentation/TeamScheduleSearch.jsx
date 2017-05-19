@@ -29,7 +29,7 @@ class TeamScheduleSearch extends Component {
           <div className='col'>
             <form>
               <label>
-                Team Abbreviated Name:
+                Team Abbreviated Name (Schedule):
                 <input type="text" onChange={this.updateTeamName} id='teamScheduleSearch'/>
               </label>
               <button onClick={this.getTeamSchedule}type='Submit'>Submit</button>

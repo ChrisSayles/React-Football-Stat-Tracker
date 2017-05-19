@@ -30,7 +30,7 @@ class TeamRosterSearch extends Component {
           <div className='col'>
             <form>
               <label>
-                Team Abbreviated Name:
+                Team Abbreviated Name (Roster):
                 <input type="text" onChange={this.updateTeamName} id='teamrostersearch'/>
               </label>
               <button onClick={this.getTeamRoster} type='Submit'>Submit</button>

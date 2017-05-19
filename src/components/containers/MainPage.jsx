@@ -149,20 +149,27 @@ class MainPage extends Component {
                   href="#">Player Stats</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">Team Schedule</a>
+                <a className="nav-link"
+                name='teamRoster'
+                onClick={this.renderTabInfo}
+                 href="#">Team Roster</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">Team Roster</a>
+                <a className="nav-link"
+                name='teamSchedule'
+                onClick={this.renderTabInfo}
+                 href="#">Team Schedule</a>
               </li>
             </ul>
           </div>
         </div>
+        
 
-        <PlayerBioSearch getStats={this.getPlayer} />
-
-        <TeamRosterSearch getTeam={this.getTeamRoster} />
-
-        <TeamScheduleSearch getSchedule={this.getTeamSchedule} />
+        
+        {this.state.renderComponents.playerBio === true ? <PlayerBioSearch getStats={this.getPlayer} /> : <div></div>} 
+        {this.state.renderComponents.teamRoster === true ? <TeamRosterSearch getTeam={this.getTeamRoster} /> : <div></div>}        
+        {this.state.renderComponents.teamSchedule === true ? <TeamScheduleSearch getSchedule={this.getTeamSchedule} /> : <div></div>}   
+        
 
         {this.state.currentPlayerBio.profileUrl ? <PlayerCard
           playerName={this.state.submittedPlayer}
