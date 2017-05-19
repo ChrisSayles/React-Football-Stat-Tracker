@@ -70,17 +70,16 @@ class PlayerCard extends Component {
 
   render() {
     return (
-      <div>
-        <div className="card" style={{
-          width: 20 + 'rem'
-        }}>
+      <div className="p-2" style={{maxWidth: 20+"%" }}>
+        <div className="card">
           <img className="card-img-top" src={this.state.playerPic} alt="Card image cap"/>
           <div className="card-block">
             <h4 className="card-title">{this.props.playerName.firstName + " " + this.props.playerName.lastName}</h4>
-            <p className="card-text">{`Position: ${this.props.playerBio.position} | Uniform Number: ${this.props.playerBio.uniformNum}`}</p>
+            <div className="card-text">Position: {this.props.playerBio.position}</div>
+            <div className="card-text">Uniform Number: {this.props.playerBio.uniformNum}</div>
           </div>
           <ul className="list-group list-group-flush">
-            {this.getPlayerStats()}
+            {/*this.getPlayerStats()*/}
           </ul>
           <div className="card-block">
             <a target="_blank" href={this.props.playerBio.profileUrl} className="card-link">NFL Profile</a>

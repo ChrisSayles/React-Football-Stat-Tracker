@@ -23,7 +23,7 @@ class FullTeamRoster extends Component {
 			)
 		});
 		return (
-			<div>
+			<div className='d-flex flex-row flex-wrap align-item-center justify-content-center align-content-start'>
 				{allPlayers}
 			</div>
 
