@@ -138,7 +138,7 @@ class MainPage extends Component {
                 <a
                   name='playerBio'
                   onClick={this.renderTabInfo}
-                  className="nav-link active"
+                  className={"nav-link " + (this.state.renderComponents.playerBio === true ? 'active' : '')}
                   href="#">Player Bio</a>
               </li>
               <li className="nav-item">
@@ -149,13 +149,13 @@ class MainPage extends Component {
                   href="#">Player Stats</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link"
+                <a className={"nav-link " + (this.state.renderComponents.teamRoster === true ? 'active' : '')}
                 name='teamRoster'
                 onClick={this.renderTabInfo}
                  href="#">Team Roster</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link"
+                <a className={"nav-link " + (this.state.renderComponents.teamSchedule === true ? 'active' : '')}
                 name='teamSchedule'
                 onClick={this.renderTabInfo}
                  href="#">Team Schedule</a>
@@ -177,7 +177,7 @@ class MainPage extends Component {
           playerStats={this.state.returnedStats}/>
         : <div></div>}
 
-        <FullTeamRoster fullTeam={this.state.fullTeam}  />
+        {this.state.renderComponents.teamRoster === true ? <FullTeamRoster fullTeam={this.state.fullTeam}  /> : <div></div>}        
 
       </div>
     );
