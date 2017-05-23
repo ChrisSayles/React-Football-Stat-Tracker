@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 
-import {PlayerCard, PlayerBioSearch, PlayerStatSearch, TeamRosterSearch, TeamScheduleSearch} from '../presentation/';
+import {PlayerCard, PlayerBioSearch, PlayerStatSearch, TeamRosterSearch, TeamScheduleSearch, TeamScheduleCard, TopTeamPlayers } from '../presentation/';
 import FullTeamRoster from './FullTeamRoster';
 
 class MainPage extends Component {
@@ -26,7 +26,8 @@ class MainPage extends Component {
         uniformNum: ''
       },
       returnedStats: {},
-      fullTeam: [],      
+      fullTeam: [],
+      fullSchedule: [],     
       renderComponents: {
         playerBio: true,
         playerStats: false,
@@ -111,6 +112,8 @@ class MainPage extends Component {
       currentFullTeam = response.data;
       self.setState({fullTeam: currentFullTeam});
 
+      // self.getRbYards(response.data);
+
     })
       .catch(function (error) {
         console.error('error', error);
@@ -118,13 +121,70 @@ class MainPage extends Component {
   }
 
   getTeamSchedule= (schedule) => {
+    const self = this;
    axios({method: 'get', url: '/nflschedule', params: schedule, responseType: 'json'}).then(function (response) {
       console.log('response team roster', response);
+      let currentFullSchedule = Object.assign([], self.state.fullSchedule);
+      currentFullSchedule = response.data;
+      self.setState({fullSchedule: currentFullSchedule});
+
     })
       .catch(function (error) {
         console.error('error', error);
     });
   }
+
+  getStats = (array) => {
+    const allRb = [];
+    const allWr = [];
+    let currentState = Object.assign({}, this.state.teamStats);
+    array.map((object, i) => {
+      if(object.position === 'RB') {
+        let rbName = {
+          lastName: object.lastName,
+          firstName: object.firstName
+        };
+        axios({method: 'get', url: '/nflplayerstats', params: rbName, responseType: 'json'}).then(function (response) {
+          let rushingStats = response.data[0].rushing;
+          allRb.push({
+            name: object.fullName,
+            yards: rushingStats.rushingYds,
+            tds: rushingStats.tds
+          });          
+        }).catch(function (error) {
+          console.log('error', error)
+        });
+      }
+      else if(object.position === 'WR') {
+        let wrName = {
+          lastName: object.lastName,
+          firstName: object.firstName
+        };
+        axios({method: 'get', url: '/nflplayerstats', params: wrName, responseType: 'json'}).then(function (response) {
+          let receivingStats = response.data[0].receiving;
+          allWr.push({
+            name: object.fullName,
+            yards: receivingStats.receivingYds,
+            tds: receivingStats.tds
+          });          
+        }).catch(function (error) {
+          console.log('error', error)
+        });
+      }
+
+    })     
+    console.log('RBs',allRb);
+    console.log('WRs',allWr);
+    this.setState({
+      receiving: allWr,
+      rushing: allRb
+    });
+
+  }
+
+  
+
+
 
   render() {
     return (
@@ -177,8 +237,11 @@ class MainPage extends Component {
           playerStats={this.state.returnedStats}/>
         : <div></div>}
 
-        {this.state.renderComponents.teamRoster === true ? <FullTeamRoster fullTeam={this.state.fullTeam}  /> : <div></div>}        
+        {this.state.renderComponents.teamRoster === true ? <FullTeamRoster fullTeam={this.state.fullTeam}  /> : <div></div>}   
 
+        {this.state.renderComponents.teamSchedule === true ? <TeamScheduleCard fullSchedule={this.state.fullSchedule} /> : <div></div>}
+
+        <TopTeamPlayers fullTeam={this.state.fullTeam} getStats={this.getStats} />
       </div>
     );
   }

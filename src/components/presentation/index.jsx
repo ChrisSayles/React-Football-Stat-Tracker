@@ -5,6 +5,8 @@ import PlayerBioSearch from './PlayerBioSearch';
 import PlayerStatSearch from './PlayerStatSearch';
 import TeamRosterSearch from './TeamRosterSearch';
 import TeamScheduleSearch from './TeamScheduleSearch';
+import TeamScheduleCard from './TeamScheduleCard';
+import TopTeamPlayers from './TopTeamPlayers';
 export {
   MainHeader,
   MainFooter,
@@ -12,5 +14,7 @@ export {
   PlayerBioSearch,
   PlayerStatSearch,
   TeamRosterSearch,
-  TeamScheduleSearch
+  TeamScheduleSearch,
+  TeamScheduleCard,
+  TopTeamPlayers
 }

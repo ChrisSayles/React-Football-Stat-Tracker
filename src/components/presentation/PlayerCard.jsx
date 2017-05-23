@@ -11,22 +11,29 @@ class PlayerCard extends Component {
       playerPic: ''
     }
   }
-  
-  
-  componentDidMount() {
+
+componentWillMount() {
+  this.getPlayerPic(this.props.playerBio.profileUrl);
+  // const self = this;
+  //   axios.get(this.props.playerBio.profileUrl).then((response) => {
+  //     let $ = cheerio.load(response.data);
+  //     // console.log('response', response.data);
+  //     let gotUrl= $('img', '.player-photo').attr('src');
+      
+  //     self.setState({playerPic: gotUrl});
+      
+  //   });    
+  }
+
+  getPlayerPic = (profileUrl) => {
   const self = this;
-    axios.get(this.props.playerBio.profileUrl).then((response) => {
+    axios.get(profileUrl).then((response) => {
       let $ = cheerio.load(response.data);
       // console.log('response', response.data);
       let gotUrl= $('img', '.player-photo').attr('src');
-      
       self.setState({playerPic: gotUrl});
       
     });    
-  }
-
-  getPlayerPic = () => {
-
   }
 
             // <li className="list-group-item">{this.props.playerStats.passing.passingYds}</li>
@@ -56,7 +63,7 @@ class PlayerCard extends Component {
   case 'WR':
     console.log('Bananas are $0.48 a pound.');
     break;
-  case 'TE':
+  case 'TE' :
     console.log('Cherries are $3.00 a pound.');
     break;
   case 'OL':
@@ -69,6 +76,7 @@ class PlayerCard extends Component {
   }
 
   render() {
+    
     return (
       <div className="p-2" style={{maxWidth: 20+"%" }}>
         <div className="card">
