@@ -8,8 +8,6 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'NFL Football Player Database' });
 });
 
-
-
 //ROUTES TO PLAYER BASIC INFO
 router.get('/nflplayer',function(req,res){
   var firstName=req.query.firstName;
@@ -118,6 +116,9 @@ router.get('/api/players', function (req, res, next) {
 
 });
 
+router.get('*', function(req, res, next) {
+  res.render('index', { title: 'NFL Football Player Database' });
+});
 
 
 
