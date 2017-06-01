@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import cheerio from 'cheerio';
 import axios from 'axios';
-
+import { connect } from 'react-redux';
 
 
 class PlayerCard extends Component {
@@ -13,7 +13,7 @@ class PlayerCard extends Component {
   }
 
 componentWillMount() {
-  this.getPlayerPic(this.props.playerBio.profileUrl);
+  // this.getPlayerPic(this.props.playerBio.profileUrl);
   // const self = this;
   //   axios.get(this.props.playerBio.profileUrl).then((response) => {
   //     let $ = cheerio.load(response.data);
@@ -79,23 +79,13 @@ componentWillMount() {
     
     return (
       <div className="p-2" style={{maxWidth: 20+"%" }}>
-        <div className="card">
-          <img className="card-img-top" src={this.state.playerPic} alt="Card image cap"/>
-          <div className="card-block">
-            <h4 className="card-title">{this.props.playerName.firstName + " " + this.props.playerName.lastName}</h4>
-            <div className="card-text">Position: {this.props.playerBio.position}</div>
-            <div className="card-text">Uniform Number: {this.props.playerBio.uniformNum}</div>
-          </div>
-          <ul className="list-group list-group-flush">
-            {/*this.getPlayerStats()*/}
-          </ul>
-          <div className="card-block">
-            <a target="_blank" href={this.props.playerBio.profileUrl} className="card-link">NFL Profile</a>
-          </div>
-        </div>
+        <div>{this.props.player[0] ? this.props.player[0].fullName : ''}</div>
       </div>
     );
   }
 }
+function mapStateToProps(state){
+  return {player: state.player}
+}
 
-export default PlayerCard;
+export default connect(mapStateToProps, null)(PlayerCard);

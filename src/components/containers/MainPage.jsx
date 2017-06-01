@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-
+import { connect } from 'react-redux';
+import { fetchPlayer } from '../../actions';
 import {PlayerCard, PlayerBioSearch, PlayerStatSearch, TeamRosterSearch, TeamScheduleSearch, TeamScheduleCard, TopTeamPlayers } from '../presentation/';
 import FullTeamRoster from './FullTeamRoster';
 
@@ -53,7 +54,6 @@ class MainPage extends Component {
 
   getPlayer = (player) => {
     // e.preventDefault();
-
     const self = this;
 
     let submittedPlayer = Object.assign({}, this.state.tempPlayer);
@@ -226,16 +226,16 @@ class MainPage extends Component {
         
 
         
-        {this.state.renderComponents.playerBio === true ? <PlayerBioSearch getStats={this.getPlayer} /> : <div></div>} 
+        {this.state.renderComponents.playerBio === true ? <PlayerBioSearch getStats={this.props.fetchPlayer} /> : <div></div>} 
         {this.state.renderComponents.teamRoster === true ? <TeamRosterSearch getTeam={this.getTeamRoster} /> : <div></div>}        
         {this.state.renderComponents.teamSchedule === true ? <TeamScheduleSearch getSchedule={this.getTeamSchedule} /> : <div></div>}   
         
-
-        {this.state.currentPlayerBio.profileUrl ? <PlayerCard
+        <PlayerCard />
+        {/*this.state.currentPlayerBio.profileUrl ? <PlayerCard
           playerName={this.state.submittedPlayer}
           playerBio={this.state.currentPlayerBio}
           playerStats={this.state.returnedStats}/>
-        : <div></div>}
+        : <div></div>*/}
 
         {this.state.renderComponents.teamRoster === true ? <FullTeamRoster fullTeam={this.state.fullTeam}  /> : <div></div>}   
 
@@ -247,4 +247,8 @@ class MainPage extends Component {
   }
 }
 
-export default MainPage;
+function mapStateToProps(state) {
+  return {player: state.player }
+}
+
+export default connect(mapStateToProps, { fetchPlayer })(MainPage);
