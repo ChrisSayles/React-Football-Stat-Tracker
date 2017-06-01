@@ -13,13 +13,13 @@ class PlayerCard extends Component {
   }
   
   componentWillMount() {
-    // fire on initial load
+    // fire on initial load    
     this.getPlayerPic(this.props.player[0].profileUrl);
   }
   
 
   componentDidUpdate() {
-    // fire everytime ajax cheerio request updates new player pic
+    // fire everytime ajax cheerio request updates new player pic    
     this.getPlayerPic(this.props.player[0].profileUrl);
   }
 
@@ -28,8 +28,14 @@ class PlayerCard extends Component {
     axios.get(profileUrl).then((response) => {
       let $ = cheerio.load(response.data);
       // console.log('response', response.data);
-      let gotUrl= $('img', '.player-photo').attr('src');      
-      self.setState({playerPic: gotUrl});
+      let gotUrl= $('img', '.player-photo').attr('src');
+      // we need this if statement or else we will have an INFINITE LOOP due to setState inside componentDidUpdate 
+      if(self.state.playerPic === gotUrl) {
+        return;        
+      } else {
+        self.setState({playerPic: gotUrl});
+      }
+      
       
     });    
   }

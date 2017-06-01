@@ -181,11 +181,6 @@ class MainPage extends Component {
     });
 
   }
-
-  
-
-
-
   render() {
     return (
       <div className='container' style={{
@@ -231,7 +226,7 @@ class MainPage extends Component {
         {this.state.renderComponents.teamSchedule === true ? <TeamScheduleSearch getSchedule={this.getTeamSchedule} /> : <div></div>}   
         
         
-        {this.props.player[0] ? <PlayerCard/> : <div></div>}
+        {this.props.player[0] ? <PlayerCard onChange={} /> : <div></div>}
 
         {this.state.renderComponents.teamRoster === true ? <FullTeamRoster fullTeam={this.state.fullTeam}  /> : <div></div>}   
 
