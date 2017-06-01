@@ -230,12 +230,8 @@ class MainPage extends Component {
         {this.state.renderComponents.teamRoster === true ? <TeamRosterSearch getTeam={this.getTeamRoster} /> : <div></div>}        
         {this.state.renderComponents.teamSchedule === true ? <TeamScheduleSearch getSchedule={this.getTeamSchedule} /> : <div></div>}   
         
-        <PlayerCard />
-        {/*this.state.currentPlayerBio.profileUrl ? <PlayerCard
-          playerName={this.state.submittedPlayer}
-          playerBio={this.state.currentPlayerBio}
-          playerStats={this.state.returnedStats}/>
-        : <div></div>*/}
+        
+        {this.props.player[0] ? <PlayerCard/> : <div></div>}
 
         {this.state.renderComponents.teamRoster === true ? <FullTeamRoster fullTeam={this.state.fullTeam}  /> : <div></div>}   
 

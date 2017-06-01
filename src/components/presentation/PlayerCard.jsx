@@ -12,17 +12,8 @@ class PlayerCard extends Component {
     }
   }
 
-componentWillMount() {
-  // this.getPlayerPic(this.props.playerBio.profileUrl);
-  // const self = this;
-  //   axios.get(this.props.playerBio.profileUrl).then((response) => {
-  //     let $ = cheerio.load(response.data);
-  //     // console.log('response', response.data);
-  //     let gotUrl= $('img', '.player-photo').attr('src');
-      
-  //     self.setState({playerPic: gotUrl});
-      
-  //   });    
+componentDidMount() {
+     
   }
 
   getPlayerPic = (profileUrl) => {
@@ -30,7 +21,7 @@ componentWillMount() {
     axios.get(profileUrl).then((response) => {
       let $ = cheerio.load(response.data);
       // console.log('response', response.data);
-      let gotUrl= $('img', '.player-photo').attr('src');
+      let gotUrl= $('img', '.player-photo').attr('src');      
       self.setState({playerPic: gotUrl});
       
     });    
@@ -75,11 +66,27 @@ componentWillMount() {
 
   }
 
-  render() {
-    
+  render() {   
+    // our searched player will always be in the first position of an array
+    const player = this.props.player[0];
+    // moved this down from componentDidMount due to pic not changing when searching a new player
+    this.getPlayerPic(player.profileUrl);
     return (
       <div className="p-2" style={{maxWidth: 20+"%" }}>
-        <div>{this.props.player[0] ? this.props.player[0].fullName : ''}</div>
+        <div className="card">
+          <img className="card-img-top" src={this.state.playerPic} alt="Card image cap"/>
+          <div className="card-block">
+          <h4 className="card-title">{player.fullName}</h4>
+          <div className="card-text">Position: {player.position}</div>
+          <div className="card-text">Uniform Number: {player.uniformNumber}</div>
+          </div>
+          <ul className="list-group list-group-flush">
+          {/*this.getPlayerStats()*/}
+          </ul>
+          <div className="card-block">
+          <a target="_blank" href={player.profileUrl} className="card-link">NFL Profile</a>
+          </div>
+          </div>
       </div>
     );
   }
