@@ -11,9 +11,16 @@ class PlayerCard extends Component {
       playerPic: ''
     }
   }
+  
+  componentWillMount() {
+    // fire on initial load
+    this.getPlayerPic(this.props.player[0].profileUrl);
+  }
+  
 
-componentDidMount() {
-     
+  componentDidUpdate() {
+    // fire everytime ajax cheerio request updates new player pic
+    this.getPlayerPic(this.props.player[0].profileUrl);
   }
 
   getPlayerPic = (profileUrl) => {
@@ -69,8 +76,7 @@ componentDidMount() {
   render() {   
     // our searched player will always be in the first position of an array
     const player = this.props.player[0];
-    // moved this down from componentDidMount due to pic not changing when searching a new player
-    this.getPlayerPic(player.profileUrl);
+
     return (
       <div className="p-2" style={{maxWidth: 20+"%" }}>
         <div className="card">
